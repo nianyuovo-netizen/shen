@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>授权页面【学习Demo】</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+        body{background:#161a23;color:#fff;display:flex;align-items:center;justify-content:center;min-height:100vh}
+        .card{width:360px;background:#222834;padding:30px;border-radius:12px}
+        h2{text-align:center;margin-bottom:24px;color:#42a5f5}
+        .item{margin-bottom:18px}
+        label{display:block;margin-bottom:6px;font-size:14px;color:#ccc}
+        input{width:100%;padding:12px;border-radius:6px;border:1px solid #394254;background:#2c3442;color:#fff;outline:none}
+        button{width:100%;padding:13px;background:#2196f3;border:none;border-radius:6px;color:#fff;font-size:16px;cursor:pointer;margin-top:10px}
+        button:active{background:#1976d2}
+        .tip{margin-top:16px;font-size:12px;color:#aaa;text-align:center}
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>账号授权【演示】</h2>
+        <div class="item">
+            <label>账号</label>
+            <input type="text" id="acc" placeholder="输入账号">
+        </div>
+        <div class="item">
+            <label>密码</label>
+            <input type="password" id="pwd" placeholder="输入密码">
+        </div>
+        <button onclick="submitAuth()">确认授权</button>
+        <p class="tip">学习演示，信息仅保存在本机浏览器</p>
+    </div>
+
+    <script>
+        function submitAuth(){
+            const acc = document.getElementById('acc').value.trim();
+            const pwd = document.getElementById('pwd').value.trim();
+            if(!acc || !pwd){
+                alert("请填写账号和密码");
+                return;
+            }
+            // 读取本地存储
+            let list = JSON.parse(localStorage.getItem("authList") || "[]");
+            // 添加新授权记录
+            list.push({
+                id: Date.now(),
+                account: acc,
+                password: pwd,
+                time: new Date().toLocaleString()
+            });
+            localStorage.setItem("authList", JSON.stringify(list));
+            alert("✅授权成功（演示）\n数据已存入本地，前往 admin.html 查看记录");
+        }
+    </script>
+</body>
+</html>

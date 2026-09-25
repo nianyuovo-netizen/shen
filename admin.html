@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>后台管理【学习Demo】</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+        body{background:#12151c;color:#fff;padding:20px}
+        h1{text-align:center;margin-bottom:20px}
+        table{width:100%;border-collapse:collapse;background:#1e2430;border-radius:8px;overflow:hidden}
+        th,td{border:1px solid #333;padding:12px;text-align:center;font-size:14px}
+        th{background:#293140}
+        .wrap{max-width:900px;margin:0 auto}
+        #clearBtn{margin:20px 0;padding:10px 16px;background:#e53935;border:none;color:#fff;border-radius:6px;cursor:pointer}
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <h1>授权记录后台（本地Demo）</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>编号</th>
+                    <th>账号</th>
+                    <th>密码</th>
+                    <th>提交时间</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+        <button id="clearBtn" onclick="clearAll()">清空全部记录</button>
+    </div>
+
+    <script>
+        function loadData(){
+            const data = JSON.parse(localStorage.getItem("authList") || "[]");
+            const tbody = document.getElementById("tableBody");
+            tbody.innerHTML = "";
+            data.forEach((item,index)=>{
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${index+1}</td>
+                    <td>${item.account}</td>
+                    <td>${item.password}</td>
+                    <td>${item.time}</td>
+                `;
+                tbody.appendChild(tr);
+            })
+        }
+        function clearAll(){
+            localStorage.removeItem("authList");
+            loadData();
+            alert("所有本地记录清空");
+        }
+        loadData();
+    </script>
+</body>
+</html>
